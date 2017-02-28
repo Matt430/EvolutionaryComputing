@@ -43,8 +43,11 @@
   <ItemGroup>
     <Compile Include="Crossover.cs" />
     <Compile Include="FitnessFunction.cs" />
+    <Compile Include="LinearOneCount.cs" />
+    <Compile Include="LooseLinkTrap.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TightLinkTrap.cs" />
     <Compile Include="TwoPointCrossover.cs" />
     <Compile Include="UniformCrossover.cs" />
     <Compile Include="UniformOneCount.cs" />

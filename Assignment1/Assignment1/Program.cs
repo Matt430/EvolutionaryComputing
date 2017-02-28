@@ -13,7 +13,7 @@ namespace Assignment1
         static void Main(string[] args)
         {
             //Assign which fitness function and crossover must be used
-            FitnessFunction fitnessFunction = new UniformOneCount();
+            FitnessFunction fitnessFunction = new LooseLinkTrap(4, 2.5f, 100, random);
             Crossover crossover = new UniformCrossover();
 
             //Generate a random population
@@ -21,7 +21,7 @@ namespace Assignment1
             population = GenerateRandomPopulation(250, 100);
 
             //Main loop
-            while (fitnessFunction.Fitness(population[0]) != 100)
+            while (PrintString(population[0]) != PrintString(population[population.Count - 1]))
             {
                 //Make sure the ordering is random.
                 population = ShufflePopulation(population);
@@ -30,9 +30,10 @@ namespace Assignment1
                 //Sort the list and remove the worst half.
                 population.Sort(fitnessFunction.FitnessCompare);
                 population.RemoveRange(0, population.Count / 2);
-
+            //}
                 //Writeline for debug.
-                Console.WriteLine(fitnessFunction.Fitness(population[0]));
+                Console.WriteLine(PrintString(population[population.Count - 1]));
+                
             }
             Console.ReadLine();
         }

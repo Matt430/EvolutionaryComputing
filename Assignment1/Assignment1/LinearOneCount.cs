@@ -6,17 +6,16 @@ using System.Threading.Tasks;
 
 namespace Assignment1
 {
-    class UniformOneCount : FitnessFunction
+    class LinearOneCount : FitnessFunction
     {
-        //This fitness function simply counts how many 1s are in this string.
         public override float Fitness(List<bool> bitstring)
         {
             float count = 0;
-            foreach (bool bit in bitstring)
+            for (int i = 0; i < bitstring.Count; i++ )
             {
-                if (bit)
+                if (bitstring[i])
                 {
-                    count++;
+                    count += 1 + i;
                 }
             }
             return count;
