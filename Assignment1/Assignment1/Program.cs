@@ -19,10 +19,10 @@ namespace Assignment1
             //Assign length of subfunctions.
             int k = 4;
             //Assign deceptiveness. 1 = deceptive, 2.5 is non-deceptive.
-            int d = 1;
+            float d = 2.5f;
             //Assign which fitness function and crossover must be used.
             FitnessFunction fitnessFunction = new LooseLinkTrap(k, d, stringLength, random);
-            Crossover crossover = new TwoPointCrossover();
+            Crossover crossover = new UniformCrossover();
 
             //Generate a random population
             List<List<bool>> population;
