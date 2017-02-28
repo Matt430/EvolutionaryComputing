@@ -12,16 +12,24 @@ namespace Assignment1
 
         static void Main(string[] args)
         {
-            //Assign which fitness function and crossover must be used
-            FitnessFunction fitnessFunction = new LooseLinkTrap(4, 2.5f, 100, random);
-            Crossover crossover = new UniformCrossover();
+            //Assign how large the population should be.
+            int populationCount = 250;
+            //Assign string length.
+            int stringLength = 100;
+            //Assign length of subfunctions.
+            int k = 4;
+            //Assign deceptiveness. 1 = deceptive, 2.5 is non-deceptive.
+            int d = 1;
+            //Assign which fitness function and crossover must be used.
+            FitnessFunction fitnessFunction = new LooseLinkTrap(k, d, stringLength, random);
+            Crossover crossover = new TwoPointCrossover();
 
             //Generate a random population
             List<List<bool>> population;
-            population = GenerateRandomPopulation(250, 100);
+            population = GenerateRandomPopulation(populationCount, 100);
 
             //Main loop
-            while (PrintString(population[0]) != PrintString(population[population.Count - 1]))
+            while (PrintString(population[0]) != PrintString(population[populationCount - 1]))
             {
                 //Make sure the ordering is random.
                 population = ShufflePopulation(population);
@@ -32,7 +40,7 @@ namespace Assignment1
                 population.RemoveRange(0, population.Count / 2);
             //}
                 //Writeline for debug.
-                Console.WriteLine(PrintString(population[population.Count - 1]));
+                Console.WriteLine(PrintString(population[populationCount - 1]));
                 
             }
             Console.ReadLine();
