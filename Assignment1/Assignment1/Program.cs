@@ -12,16 +12,28 @@ namespace Assignment1
 
         static void Main(string[] args)
         {
-            //Assign which fitness function must be used
+            //Assign which fitness function and crossover must be used
             FitnessFunction fitnessFunction = new UniformOneCount();
+            Crossover crossover = new UniformCrossover();
 
             //Generate a random population
             List<List<bool>> population;
-            population = GenerateRandomPopulation(100, 100);
+            population = GenerateRandomPopulation(250, 100);
 
-            population.Sort(fitnessFunction.FitnessCompare);
+            //Main loop
+            while (fitnessFunction.Fitness(population[0]) != 100)
+            {
+                //Make sure the ordering is random.
+                population = ShufflePopulation(population);
+                //Generate new offsring using the choses crossover method.
+                population = crossover.GenerateOffspring(population, random);
+                //Sort the list and remove the worst half.
+                population.Sort(fitnessFunction.FitnessCompare);
+                population.RemoveRange(0, population.Count / 2);
 
-            Console.WriteLine(fitnessFunction.Fitness(population[0]));
+                //Writeline for debug.
+                Console.WriteLine(fitnessFunction.Fitness(population[0]));
+            }
             Console.ReadLine();
         }
 
@@ -39,6 +51,21 @@ namespace Assignment1
                 population.Add(bitString);
             }
             return population;
+        }
+
+        //Randomizes the order of the population list.
+        static List<List<bool>> ShufflePopulation(List<List<bool>> population)
+        {
+            int n = population.Count;  
+            while (n > 1) 
+            {  
+                n--;  
+                int k = random.Next(n + 1);  
+                List<bool> value = population[k];  
+                population[k] = population[n];  
+                population[n] = value;  
+            }
+            return(population);
         }
 
         //This methods converts a list of bits to a printable string.
