@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Assignment1
 {
@@ -17,12 +14,12 @@ namespace Assignment1
             this.k = k;
             this.d = d;
             permutation = new int[stringLength];
-            for (int i = 0; i < stringLength; i++)
+            for(int i = 0; i < stringLength; i++)
             {
                 permutation[i] = i;
             }
             int n = stringLength;
-            while (n > 1)
+            while(n > 1)
             {
                 n--;
                 int s = random.Next(n + 1);
@@ -35,17 +32,17 @@ namespace Assignment1
         public override float Fitness(List<bool> bitstring)
         {
             float count = 0;
-            for (int i = 0; i < bitstring.Count; i += k)
+            for(int i = 0; i < bitstring.Count; i += k)
             {
                 int subCount = 0;
-                for (int j = 0; j < k; j++)
+                for(int j = 0; j < k; j++)
                 {
-                    if (bitstring[permutation[i + j]])
+                    if(bitstring[permutation[i + j]])
                     {
                         subCount += 1;
                     }
                 }
-                if (subCount == k)
+                if(subCount == k)
                 {
                     count += k;
                 }

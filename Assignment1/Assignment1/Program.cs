@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Assignment1
@@ -13,82 +10,89 @@ namespace Assignment1
         static void Main(string[] args)
         {
             //Assign how large the population should be.
-            int populationCount = 250;
+            int[] populationCounts = new int[] { 50, 100, 250, 500 };
             //Assign string length.
             int stringLength = 100;
             //Assign length of subfunctions.
             int k = 4;
             //Assign deceptiveness. 1 = deceptive, 2.5 is non-deceptive.
-            float d = 2.5f;
+            float d = 1f;
+
             //Assign which fitness function and crossover must be used.
-            FitnessFunction fitnessFunction = new LooseLinkTrap(k, d, stringLength, random);
-            Crossover crossover = new UniformCrossover();
+            //FitnessFunction fitnessFunction = new LooseLinkTrap(k, d, 100, random);
+            //Crossover crossover = new UniformCrossover();
+            FitnessFunction fitnessFunction = new UniformOneCount();
+            Crossover crossover = new TwoPointCrossover();
 
-            //Generate a random population
-            List<List<bool>> population;
-            population = GenerateRandomPopulation(populationCount, 100);
-
-            //Main loop
-            while (PrintString(population[0]) != PrintString(population[populationCount - 1]))
+            for(int r = 0; r < 4; ++r)
             {
-                //Make sure the ordering is random.
-                population = ShufflePopulation(population);
-                //Generate new offsring using the choses crossover method.
-                population = crossover.GenerateOffspring(population, random);
-                //Sort the list and remove the worst half.
-                population.Sort(fitnessFunction.FitnessCompare);
-                population.RemoveRange(0, population.Count / 2);
-            //}
-                //Writeline for debug.
-                Console.WriteLine(PrintString(population[populationCount - 1]));
-                
-            }
-            Console.ReadLine();
-        }
-
-        //This method generates a list of random bitstrings with a population size of size, where each string has a length of stringlength
-        static List<List<bool>> GenerateRandomPopulation(int size, int stringlength)
-        {
-            List<List<bool>> population = new List<List<bool>>();
-            for (int i = 0; i < size; i++)
-            {
-                List<bool> bitString = new List<bool>();
-                for (int j = 0; j < stringlength; j++)
+                int numberOfRuns = 25;
+                float[] firstHits = new float[numberOfRuns];
+                float[] convergences = new float[numberOfRuns];
+                float[] runTimes = new float[numberOfRuns];
+                Parallel.For(0, numberOfRuns, i =>
                 {
-                    bitString.Add(random.NextDouble() >= 0.5);
-                }
-                population.Add(bitString);
+                    GeneticAlgorithm ga = new GeneticAlgorithm(populationCounts[r], stringLength, fitnessFunction, crossover);
+                    ga.Run();
+
+                    firstHits[i] = ga.FirstHitGeneration;
+                    convergences[i] = ga.ConvergenceGeneration;
+                    runTimes[i] = ga.RunTime;
+                });
+
+                // Calculate successes
+                int successes = 0;
+                foreach(float firstHit in firstHits)
+                    if(firstHit > 0)
+                        ++successes;
+
+                // Calculate the mean
+                float meanFirstHit = CalculateMean(firstHits);
+                float meanConvergence = CalculateMean(convergences);
+                float meanRuntime = CalculateMean(runTimes);
+
+                // Calculate the standard deviation
+                float firstHitSD = CalculateStandardDeviation(firstHits, meanFirstHit);
+                float convergenceSD = CalculateStandardDeviation(convergences, meanConvergence);
+                float runTimeSD = CalculateStandardDeviation(runTimes, meanRuntime);
+
+                Console.WriteLine("Population Size: " + populationCounts[r % populationCounts.Length]);
+                Console.WriteLine("Successes: " + successes);
+                Console.WriteLine("First Hit: " + meanFirstHit + " (" + firstHitSD + ")");
+                Console.WriteLine("Convergence: " + meanConvergence + " (" + convergenceSD + ")");
+                Console.WriteLine("Run Time: " + meanRuntime + " (" + runTimeSD + ")");
             }
-            return population;
+
+            Console.WriteLine("Simulation over press any key to close program...");
+            Console.ReadKey();
         }
 
-        //Randomizes the order of the population list.
-        static List<List<bool>> ShufflePopulation(List<List<bool>> population)
+        // Calculate the mean of an array of values
+        static float CalculateMean(float[] values)
         {
-            int n = population.Count;  
-            while (n > 1) 
-            {  
-                n--;  
-                int k = random.Next(n + 1);  
-                List<bool> value = population[k];  
-                population[k] = population[n];  
-                population[n] = value;  
-            }
-            return(population);
+            float mean = 0;
+            foreach(float value in values)
+                mean += value / values.Length;
+            return mean;
         }
 
-        //This methods converts a list of bits to a printable string.
-        static string PrintString(List<bool> bitstring)
+        // Calculate the standard deviation of an array of values and a mean
+        static float CalculateStandardDeviation(float[] values, float mean)
         {
-            string bits = "";
-            foreach (bool bit in bitstring)
-            {
-                if (bit)
-                    bits += "1";
-                else
-                    bits += "0";
-            }
-            return bits;
+            float[] intermediate = new float[values.Length];
+            for(int i = 0; i < values.Length; ++i)
+                intermediate[i] = (float) Math.Pow(values[i] - mean, 2);
+
+            float standardDeviation = 0;
+            foreach(float value in intermediate)
+                standardDeviation += value / values.Length;
+            return (float) Math.Sqrt(standardDeviation);
+        }
+
+        // Calculate the standard deviation of an array of values
+        static float CalculateStandardDeviation(float[] values)
+        {
+            return CalculateStandardDeviation(values, CalculateMean(values));
         }
     }
 }

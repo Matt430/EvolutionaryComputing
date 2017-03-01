@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Assignment1
 {
@@ -12,9 +8,9 @@ namespace Assignment1
         public override float Fitness(List<bool> bitstring)
         {
             float count = 0;
-            foreach (bool bit in bitstring)
+            foreach(bool bit in bitstring)
             {
-                if (bit)
+                if(bit)
                 {
                     count++;
                 }

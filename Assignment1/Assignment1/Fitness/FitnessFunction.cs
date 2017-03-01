@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Assignment1
 {
@@ -14,11 +10,11 @@ namespace Assignment1
         //A comparison of two bitstrings, to be used when sorting populations.
         public int FitnessCompare(List<bool> bitstring1, List<bool> bitstring2)
         {
-            if (Fitness(bitstring1) == Fitness(bitstring2))
+            if(Fitness(bitstring1) == Fitness(bitstring2))
             {
                 return 0;
             }
-            if (Fitness(bitstring1) < Fitness(bitstring2))
+            if(Fitness(bitstring1) < Fitness(bitstring2))
             {
                 return -1;
             }
