@@ -6,15 +6,20 @@ namespace Assignment1
     {
         public override float Fitness(List<bool> bitstring)
         {
-            float count = 0;
-            for(int i = 0; i < bitstring.Count; i++)
+            float fitness = base.Fitness(bitstring);
+            if(fitness == -1)
             {
-                if(bitstring[i])
+                for(int i = 0; i < bitstring.Count; i++)
                 {
-                    count += 1 + i;
+                    if(bitstring[i])
+                    {
+                        fitness += 1 + i;
+                    }
                 }
+
+                tabooList.Add(bitstring, fitness);
             }
-            return count;
+            return fitness;
         }
     }
 }

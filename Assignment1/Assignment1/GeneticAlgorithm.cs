@@ -7,6 +7,8 @@ namespace Assignment1
 {
     class GeneticAlgorithm
     {
+        public enum FitnessType { Uniform, Linear, TightLink, LooseLink }
+
         private Random random = new Random();
         private Stopwatch stopwatch = new Stopwatch();
 
@@ -131,6 +133,9 @@ namespace Assignment1
 
         public int ConvergenceGeneration
         { get { return convergenceGeneration; } }
+
+        public int FitnessCalls
+        { get { return fitnessFunction.FitnessCalls; } }
 
         public long RunTime
         { get { return stopwatch.ElapsedMilliseconds; } }

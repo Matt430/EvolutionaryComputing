@@ -5,11 +5,12 @@ namespace Assignment1
 {
     class LooseLinkTrap : FitnessFunction
     {
+        private Random random = new Random();
         private int k;
         private float d;
         private int[] permutation;
 
-        public LooseLinkTrap(int k, float d, int stringLength, Random random)
+        public LooseLinkTrap(int k, float d, int stringLength) : base()
         {
             this.k = k;
             this.d = d;
@@ -31,28 +32,32 @@ namespace Assignment1
 
         public override float Fitness(List<bool> bitstring)
         {
-            float count = 0;
-            for(int i = 0; i < bitstring.Count; i += k)
+            float fitness = base.Fitness(bitstring);
+            if(fitness == -1)
             {
-                int subCount = 0;
-                for(int j = 0; j < k; j++)
+                for(int i = 0; i < bitstring.Count; i += k)
                 {
-                    if(bitstring[permutation[i + j]])
+                    int subCount = 0;
+                    for(int j = 0; j < k; j++)
                     {
-                        subCount += 1;
+                        if(bitstring[permutation[i + j]])
+                        {
+                            subCount += 1;
+                        }
+                    }
+                    if(subCount == k)
+                    {
+                        fitness += k;
+                    }
+                    else
+                    {
+                        fitness += k - d - ((k - d) / (k - 1)) * subCount;
                     }
                 }
-                if(subCount == k)
-                {
-                    count += k;
-                }
-                else
-                {
-                    count += k - d - ((k - d) / (k - 1)) * subCount;
-                }
 
+                tabooList.Add(bitstring, fitness);
             }
-            return count;
+            return fitness;
         }
     }
 }

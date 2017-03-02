@@ -52,6 +52,7 @@
     <Compile Include="CrossOver\TwoPointCrossover.cs" />
     <Compile Include="CrossOver\UniformCrossover.cs" />
     <Compile Include="Fitness\UniformOneCount.cs" />
+    <Compile Include="Tester.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
