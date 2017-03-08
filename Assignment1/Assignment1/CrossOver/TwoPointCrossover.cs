@@ -13,12 +13,12 @@ namespace Assignment1
             for(int i = 0; i + 1 < length; i += 2)
             {
                 // Choose a random start and end location
-                int x = 1 + random.Next(length - 1);
-                int y = 1 + random.Next(length - 1);
+                int x = random.Next(length + 1);
+                int y = random.Next(length + 1);
                 while(x == y)
                 {
-                    x = 1 + random.Next(length - 1);
-                    y = 1 + random.Next(length - 1);
+                    x = random.Next(length + 1);
+                    y = random.Next(length + 1);
                 }
                 if(x > y)
                 {
