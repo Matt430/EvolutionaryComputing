@@ -71,21 +71,29 @@ namespace Assignment1
                     foreach(float firstHit in firstHits)
                         if(firstHit > 0)
                             ++successes;
+                    float[] newFirstHits = new float[successes];
+                    int n = 0;
+                    foreach (float firstHit in firstHits)
+                        if (firstHit > 0)
+                        {
+                            newFirstHits[n] = firstHit;
+                            ++n;
+                        }
 
                     // Calculate the mean
-                    float meanFirstHit = CalculateMean(firstHits);
+                    float meanFirstHit = CalculateMean(newFirstHits);
                     float meanConvergence = CalculateMean(convergences);
                     float meanFitnessCalls = CalculateMean(fitnessCalls);
                     float meanRuntime = CalculateMean(runTimes);
 
                     // Calculate the standard deviation
-                    float firstHitSD = CalculateStandardDeviation(firstHits, meanFirstHit);
+                    float firstHitSD = CalculateStandardDeviation(newFirstHits, meanFirstHit);
                     float convergenceSD = CalculateStandardDeviation(convergences, meanConvergence);
                     float fitnessCallsSD = CalculateStandardDeviation(fitnessCalls, meanFitnessCalls);
                     float runTimeSD = CalculateStandardDeviation(runTimes, meanRuntime);
 
                     // Save the results in a .csv file
-                    SaveTable(crossoverType, fitnessType.ToString(), d, populationCounts[r], successes, meanFirstHit, fitnessCallsSD, meanConvergence, convergenceSD, meanFitnessCalls, fitnessCallsSD, meanRuntime, runTimeSD);
+                    SaveTable(crossoverType, fitnessType.ToString(), d, populationCounts[r], successes, meanFirstHit, firstHitSD, meanConvergence, convergenceSD, meanFitnessCalls, fitnessCallsSD, meanRuntime, runTimeSD);
                 }
                 Console.WriteLine("Finished Test!");
             }
@@ -103,14 +111,14 @@ namespace Assignment1
             string path = Directory.GetCurrentDirectory() + "/Results/ResultTable_" + crossover + "_" + fitnessType + "_" + d + ".csv";
             string header = "";
             if(!File.Exists(path))
-                header = "Population Size, Successes, Mean First Hit, Standard Deviation First Hit, Mean Convergence, Standard Deviation Convergence, Mean Function Calls, Standard Deviation Function Calls, Mean Runtime, Standard Deviation Runtime";
+                header = "Population Size|Successes|Mean First Hit|Standard Deviation First Hit|Mean Convergence|Standard Deviation Convergence|Mean Function Calls|Standard Deviation Function Calls|Mean Runtime|Standard Deviation Runtime";
 
             // Write the values into the table
             using(StreamWriter writer = new StreamWriter(path, true))
             {
                 if(header != "")
                     writer.WriteLine(header);
-                string line = string.Format("{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}", populationSize, successes, meanFirstHit, firstHitSD, meanConvergence, convergenceSD, meanFitnessCalls, fitnessCallsSD, meanRuntime, runTimeSD);
+                string line = string.Format("{0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|{8}|{9}", populationSize, successes, meanFirstHit, firstHitSD, meanConvergence, convergenceSD, meanFitnessCalls, fitnessCallsSD, meanRuntime, runTimeSD);
                 writer.WriteLine(line);
                 writer.Flush();
             }

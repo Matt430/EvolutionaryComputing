@@ -1,0 +1,5 @@
+Population Size|Successes|Mean First Hit|Standard Deviation First Hit|Mean Convergence|Standard Deviation Convergence|Mean Function Calls|Standard Deviation Function Calls|Mean Runtime|Standard Deviation Runtime
+50|0|0|0|36,4|7,515317|1821|375,7659|83,60001|55,16376
+100|0|0|0|52,8|7,172169|5281|717,2169|185,44|63,02766
+250|0|0|0|51,92|8,4613|12981|2115,325|405,96|157,002
+500|0|0|0|53|10,97634|26500,99|5488,169|751,12|256,1286

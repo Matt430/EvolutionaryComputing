@@ -1,5 +1,0 @@
-Population Size, Successes, Mean First Hit, Standard Deviation First Hit, Mean Convergence, Standard Deviation Convergence, Mean Function Calls, Standard Deviation Function Calls, Mean Runtime, Standard Deviation Runtime
-50, 0, 0, 183.4775, 29.12, 3.66955, 1457, 183.4775, 12.16, 8.702551
-100, 0, 0, 481.9294, 42.88, 4.819294, 4289, 481.9294, 60.04, 58.57882
-250, 5, 8.64, 1101.09, 51.96, 4.404361, 12991, 1101.09, 208.92, 134.843
-500, 2, 3.88, 1430.524, 56.12, 2.861049, 28061, 1430.524, 350.08, 150.3284
