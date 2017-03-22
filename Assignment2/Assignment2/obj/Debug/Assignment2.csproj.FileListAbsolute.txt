@@ -1,0 +1,6 @@
+C:\Users\Finn\Documents\EvolutionaryComputing\Assignment2\Assignment2\bin\Debug\Assignment1.exe.config
+C:\Users\Finn\Documents\EvolutionaryComputing\Assignment2\Assignment2\obj\Debug\Assignment1.exe
+C:\Users\Finn\Documents\EvolutionaryComputing\Assignment2\Assignment2\obj\Debug\Assignment1.pdb
+C:\Users\Finn\Documents\EvolutionaryComputing\Assignment2\Assignment2\bin\Debug\Assignment1.exe
+C:\Users\Finn\Documents\EvolutionaryComputing\Assignment2\Assignment2\bin\Debug\Assignment1.pdb
+C:\Users\Finn\Documents\EvolutionaryComputing\Assignment2\Assignment2\obj\Debug\Assignment2.csprojResolveAssemblyReference.cache
