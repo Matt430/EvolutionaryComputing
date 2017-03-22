@@ -13,7 +13,8 @@ namespace Assignment2
             //int[] populationCounts = new int[] { 50, 100, 250, 500 };
 
             // Create a nested array structure to represent the graph
-            string[] graphText = File.ReadLines(Directory.GetCurrentDirectory() + "/Graphs/Graph500.txt").ToArray();
+            string[] graphText = File.ReadLines(Directory.GetCurrentDirectory() + "/Graphs/Graph10.txt").ToArray();
+            //string[] graphText = File.ReadLines(Directory.GetCurrentDirectory() + "/Graphs/Graph500.txt").ToArray();
             int[][] graph = new int[graphText.Length][];
             for(int i = 0; i < graphText.Length; ++i)
             {
