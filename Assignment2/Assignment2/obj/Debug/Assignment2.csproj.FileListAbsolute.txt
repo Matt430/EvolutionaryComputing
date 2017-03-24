@@ -6,3 +6,11 @@ C:\Users\Finn\Documents\EvolutionaryComputing\Assignment2\Assignment2\bin\Debug\
 C:\Users\Finn\Documents\EvolutionaryComputing\Assignment2\Assignment2\bin\Debug\Assignment2.pdb
 C:\Users\Finn\Documents\EvolutionaryComputing\Assignment2\Assignment2\obj\Debug\Assignment2.exe
 C:\Users\Finn\Documents\EvolutionaryComputing\Assignment2\Assignment2\obj\Debug\Assignment2.pdb
+C:\Users\Matthijs\Desktop\Evolutionary Computing\EvolutionaryComputing\Assignment2\Assignment2\bin\Debug\Assignment2.exe.config
+C:\Users\Matthijs\Desktop\Evolutionary Computing\EvolutionaryComputing\Assignment2\Assignment2\obj\Debug\Assignment2.exe
+C:\Users\Matthijs\Desktop\Evolutionary Computing\EvolutionaryComputing\Assignment2\Assignment2\obj\Debug\Assignment2.pdb
+C:\Users\Matthijs\Desktop\Evolutionary Computing\EvolutionaryComputing\Assignment2\Assignment2\bin\Debug\Graphs\Graph10.txt
+C:\Users\Matthijs\Desktop\Evolutionary Computing\EvolutionaryComputing\Assignment2\Assignment2\bin\Debug\Graphs\Graph500.txt
+C:\Users\Matthijs\Desktop\Evolutionary Computing\EvolutionaryComputing\Assignment2\Assignment2\bin\Debug\Assignment2.exe
+C:\Users\Matthijs\Desktop\Evolutionary Computing\EvolutionaryComputing\Assignment2\Assignment2\bin\Debug\Assignment2.pdb
+C:\Users\Matthijs\Desktop\Evolutionary Computing\EvolutionaryComputing\Assignment2\Assignment2\obj\Debug\Assignment2.csprojResolveAssemblyReference.cache

@@ -25,8 +25,9 @@ namespace Assignment2
                     connections[j] = int.Parse(graphComponents[j + 3]) - 1;
                 }
                 graph[i] = connections;
+                
             }
-
+            
             Console.WriteLine("Start Testing...");
 
             // Clear results

@@ -45,7 +45,7 @@ namespace Assignment2
                 List<List<bool>> populationCheck = new List<List<bool>>(population);
                 populationCheck.Sort(fitnessFunction.FitnessCompare);
 
-                //Generate new offsring using the choses crossover method.
+                //Generate new offsring using the chosen crossover method.
                 population = crossover.GenerateOffspring(population, random);
 
                 //Sort the list and remove the worst half.
