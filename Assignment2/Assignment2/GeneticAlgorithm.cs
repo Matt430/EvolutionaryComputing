@@ -50,7 +50,7 @@ namespace Assignment2
 
                 //Sort the list and remove the worst half.
                 population.Sort(fitnessFunction.FitnessCompare);
-                population.RemoveRange(0, population.Count / 2);
+                population.RemoveRange(population.Count / 2, population.Count / 2);
 
                 // Check if any children have entered the population
                 if(populationCheck.SequenceEqual(population))
@@ -62,7 +62,8 @@ namespace Assignment2
                 ++generation;
             }
             convergenceGeneration = generation;
-            //Console.WriteLine("Population convergence at: " + generation);
+            Console.WriteLine("Population convergence at: " + generation);
+            Console.WriteLine(PrintString(population[0]) + " " + fitnessFunction.Fitness(population[0]));
 
             stopwatch.Stop();
         }
@@ -70,13 +71,23 @@ namespace Assignment2
         //This method generates a list of random bitstrings with a population size of size, where each string has a length of stringlength
         List<List<bool>> GenerateRandomPopulation(int size, int stringlength)
         {
-            List<List<bool>> population = new List<List<bool>>();
+            List<List<bool>> population = new List<List<bool>>();         
             for(int i = 0; i < size; i++)
             {
+                double neededZero = stringlength / 2, neededOne = stringlength / 2;
                 List<bool> bitString = new List<bool>();
                 for(int j = 0; j < stringlength; j++)
                 {
-                    bitString.Add(random.NextDouble() >= 0.5);
+                    if (random.NextDouble() >= (neededZero / (neededZero + neededOne)))
+                    {
+                        bitString.Add(true);
+                        neededOne--;
+                    }
+                    else
+                    {
+                        bitString.Add(false);
+                        neededZero--;
+                    }
                 }
                 population.Add(bitString);
             }

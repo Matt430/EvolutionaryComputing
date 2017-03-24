@@ -13,8 +13,8 @@ namespace Assignment2
             //int[] populationCounts = new int[] { 50, 100, 250, 500 };
 
             // Create a nested array structure to represent the graph
-            string[] graphText = File.ReadLines(Directory.GetCurrentDirectory() + "/Graphs/Graph10.txt").ToArray();
-            //string[] graphText = File.ReadLines(Directory.GetCurrentDirectory() + "/Graphs/Graph500.txt").ToArray();
+            //string[] graphText = File.ReadLines(Directory.GetCurrentDirectory() + "/Graphs/Graph10.txt").ToArray();
+            string[] graphText = File.ReadLines(Directory.GetCurrentDirectory() + "/Graphs/Graph500.txt").ToArray();
             int[][] graph = new int[graphText.Length][];
             for(int i = 0; i < graphText.Length; ++i)
             {
@@ -37,6 +37,8 @@ namespace Assignment2
             Directory.CreateDirectory(path);
 
             // Run the test
+            GeneticAlgorithm ga = new GeneticAlgorithm(graph.Length, graph.Length, new GraphBipartition(graph), new Uniform());
+            ga.Run();
             //Tester.RunTests(populationCounts, stringLength, k, 0f, GeneticAlgorithm.FitnessType.Uniform);
 
             Console.WriteLine("Testing Finished!");

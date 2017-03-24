@@ -41,6 +41,7 @@ namespace Assignment2
             float fitness = base.Fitness(bitstring);
             if (fitness == -1)
             {
+                fitness = 0;
                 for (int i = 0; i < halfGraph.Length; i++ )
                 {
                     for (int j = 0; j < halfGraph[i].Length; j++ )
