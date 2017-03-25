@@ -46,7 +46,7 @@ namespace Assignment2
                 populationCheck.Sort(fitnessFunction.FitnessCompare);
 
                 //Generate new offsring using the chosen crossover method.
-                population = crossover.GenerateOffspring(population, random);
+                population = crossover.GenerateOffspring(population, random, new LocalSearch(fitnessFunction as GraphBipartition));
 
                 //Sort the list and remove the worst half.
                 population.Sort(fitnessFunction.FitnessCompare);

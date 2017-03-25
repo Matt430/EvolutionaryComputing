@@ -37,7 +37,13 @@ namespace Assignment2
             Directory.CreateDirectory(path);
 
             // Run the test
-            GeneticAlgorithm ga = new GeneticAlgorithm(graph.Length, graph.Length, new GraphBipartition(graph), new Uniform());
+            MultiStartLocalSearch msl = new MultiStartLocalSearch(10, graph.Length, new GraphBipartition(graph));
+            msl.Run();
+
+            IteratedLocalSearch ils = new IteratedLocalSearch(graph.Length, new GraphBipartition(graph), 10, 10);
+            ils.Run();
+
+            GeneticAlgorithm ga = new GeneticAlgorithm(10, graph.Length, new GraphBipartition(graph), new Uniform());
             ga.Run();
             //Tester.RunTests(populationCounts, stringLength, k, 0f, GeneticAlgorithm.FitnessType.Uniform);
 

@@ -8,7 +8,7 @@ namespace Assignment2
 {
     class Uniform : Crossover
     {
-        public override List<List<bool>> GenerateOffspring(List<List<bool>> population, Random random)
+        public override List<List<bool>> GenerateOffspring(List<List<bool>> population, Random random, LocalSearch localsearch)
         {
             int length = population.Count;
             int stringLength = population[0].Count;
@@ -58,6 +58,8 @@ namespace Assignment2
                         neededZero--;
                     }
                 }
+                child1 = localsearch.Search(child1);
+                child2 = localsearch.Search(child2);
                 population.Add(child1);
                 population.Add(child2);
             }

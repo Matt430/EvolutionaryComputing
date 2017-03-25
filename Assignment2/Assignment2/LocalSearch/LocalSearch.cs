@@ -1,0 +1,63 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Assignment2
+{
+    class LocalSearch
+    {
+        GraphBipartition fitnessFunc;
+
+        public LocalSearch(GraphBipartition fitnessFunc)
+        {
+            this.fitnessFunc = fitnessFunc;
+        }
+
+        public List<bool> Search(List<bool> bitstring)
+        {
+            List<bool> previousSolution = bitstring;
+            List<bool> currentSolution = BestNeighbor(bitstring);
+            while (previousSolution != currentSolution)
+            {
+                previousSolution = currentSolution;
+                currentSolution = BestNeighbor(currentSolution);
+            }
+            return currentSolution;
+        }
+
+        public List<bool> BestNeighbor(List<bool> bitstring)
+        {
+            List<bool> original = bitstring;
+            List<bool> current = new List<bool>(bitstring);
+            List<bool> bestNeighbor = bitstring;
+            int bestSwap1 = 0, bestSwap2 = 0;
+            float bestFitness = fitnessFunc.Fitness(bitstring);
+
+            for (int i = 0; i < bitstring.Count - 1; i++)
+                for (int j = i + 1; j < bitstring.Count; j++)
+                {
+                    if (current[i] != current[j])
+                    {
+                        current[i] = !current[i];
+                        current[j] = !current[j];
+
+                        float neighborFitness = fitnessFunc.FitnessSwap(current, original, i, j);
+                        if (neighborFitness < bestFitness)
+                        {
+                            bestNeighbor = new List<bool>(current);
+                            bestSwap1 = i;
+                            bestSwap2 = j;
+                            bestFitness = neighborFitness;
+                        }
+
+                        current[i] = !current[i];
+                        current[j] = !current[j];
+                    }
+                }
+
+            return bestNeighbor;
+        }
+    }
+}

@@ -5,6 +5,6 @@ namespace Assignment2
 {
     abstract class Crossover
     {
-        public abstract List<List<bool>> GenerateOffspring(List<List<bool>> population, Random random);
+        public abstract List<List<bool>> GenerateOffspring(List<List<bool>> population, Random random, LocalSearch localsearch);
     }
 }
