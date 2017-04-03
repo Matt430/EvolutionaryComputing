@@ -42,7 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CrossOver\Crossover.cs" />
-    <Compile Include="CrossOver\Uniform.cs" />
     <Compile Include="Fitness\FitnessFunction.cs" />
     <Compile Include="Fitness\GraphBipartition.cs" />
     <Compile Include="GeneticAlgorithm.cs" />

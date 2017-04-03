@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Assignment2
 {
@@ -14,21 +15,25 @@ namespace Assignment2
         private List<List<bool>> startValues;
         LocalSearch localSearch;
 
-        public MultiStartLocalSearch(int startCount, int stringLength, FitnessFunction fitnessFunction)
+        public MultiStartLocalSearch(int stringLength, FitnessFunction fitnessFunction, int localOptima)
         {
-            this.startCount = startCount;
+            startCount = localOptima;
             this.fitnessFunction = fitnessFunction as GraphBipartition;
             localSearch = new LocalSearch(this.fitnessFunction);
             
             //Generate a random population
-            startValues = GenerateRandomPopulation(startCount, stringLength);
+            startValues = GenerateRandomPopulation(localOptima, stringLength);
         }
 
         public void Run()
         {
             List<bool> bestResult = startValues[0];
             float bestFitness = float.MaxValue;
-            
+
+            Stopwatch stopwatch = new Stopwatch();
+
+            stopwatch.Start();
+
             foreach (List<bool> value in startValues)
             {
                 List<bool> currentResult = localSearch.Search(value);
@@ -40,6 +45,9 @@ namespace Assignment2
                     bestFitness = currentFitness;
                 }
             }
+
+            stopwatch.Stop();
+            Console.WriteLine("Time elapsed: " + stopwatch.ElapsedMilliseconds);
 
             Console.WriteLine(PrintString(bestResult) + " " + bestFitness);
         }

@@ -19,11 +19,13 @@ namespace Assignment2
 
         private float optimalFitness;
         private int firstHitGeneration, convergenceGeneration;
+        private int localOptima;
 
-        public GeneticAlgorithm(int populationCount, int stringLength, FitnessFunction fitnessFunction, Crossover crossover)
+        public GeneticAlgorithm(int populationCount, int stringLength, FitnessFunction fitnessFunction, Crossover crossover, int localOptima)
         {
             this.populationCount = populationCount;
             this.fitnessFunction = fitnessFunction;
+            this.localOptima = localOptima;
             this.crossover = crossover;
 
             //Generate a random population
@@ -36,6 +38,9 @@ namespace Assignment2
 
             //Main loop
             int generation = 1;
+            int currentOptima = 0;
+            LocalSearch localsearch = new LocalSearch(fitnessFunction as GraphBipartition);
+
             while(PrintString(population[0]) != PrintString(population[populationCount - 1]))
             {
                 //Make sure the ordering is random.
@@ -46,23 +51,27 @@ namespace Assignment2
                 populationCheck.Sort(fitnessFunction.FitnessCompare);
 
                 //Generate new offsring using the chosen crossover method.
-                population = crossover.GenerateOffspring(population, random, new LocalSearch(fitnessFunction as GraphBipartition));
+                population = crossover.GenerateOffspring(population, random, localsearch, localOptima, currentOptima);
+                currentOptima += populationCount;
+
+                if (currentOptima >= localOptima)
+                    break;
 
                 //Sort the list and remove the worst half.
                 population.Sort(fitnessFunction.FitnessCompare);
                 population.RemoveRange(population.Count / 2, population.Count / 2);
 
                 // Check if any children have entered the population
-                if(populationCheck.SequenceEqual(population))
+                /*if(populationCheck.SequenceEqual(population))
                 {
                     Console.WriteLine("No new offspring was found!");
                     break;
-                }
+                }*/
 
                 ++generation;
             }
-            convergenceGeneration = generation;
-            Console.WriteLine("Population convergence at: " + generation);
+            //convergenceGeneration = generation;
+            //Console.WriteLine("Population convergence at: " + generation);
             Console.WriteLine(PrintString(population[0]) + " " + fitnessFunction.Fitness(population[0]));
 
             stopwatch.Stop();
