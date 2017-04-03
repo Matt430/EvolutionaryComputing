@@ -37,10 +37,10 @@ namespace Assignment2
             Directory.CreateDirectory(path);
 
             // Run the test
-            MultiStartLocalSearch msl = new MultiStartLocalSearch(10, graph.Length, new GraphBipartition(graph));
+            MultiStartLocalSearch msl = new MultiStartLocalSearch(2500, graph.Length, new GraphBipartition(graph));
             msl.Run();
 
-            IteratedLocalSearch ils = new IteratedLocalSearch(graph.Length, new GraphBipartition(graph), 10, 10);
+            IteratedLocalSearch ils = new IteratedLocalSearch(graph.Length, new GraphBipartition(graph), 20, 2500);
             ils.Run();
 
             GeneticAlgorithm ga = new GeneticAlgorithm(10, graph.Length, new GraphBipartition(graph), new Uniform());

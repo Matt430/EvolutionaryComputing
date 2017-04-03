@@ -18,13 +18,41 @@ namespace Assignment2
         public List<bool> Search(List<bool> bitstring)
         {
             List<bool> previousSolution = bitstring;
-            List<bool> currentSolution = BestNeighbor(bitstring);
+            List<bool> currentSolution = BetterNeighbor(bitstring);
             while (previousSolution != currentSolution)
             {
                 previousSolution = currentSolution;
-                currentSolution = BestNeighbor(currentSolution);
+                currentSolution = BetterNeighbor(currentSolution);
             }
             return currentSolution;
+        }
+
+        public List<bool> BetterNeighbor(List<bool> bitstring)
+        {
+            List<bool> original = bitstring;
+            List<bool> current = new List<bool>(bitstring);
+            float bestFitness = fitnessFunc.Fitness(bitstring);
+
+            for (int i = 0; i < bitstring.Count - 1; i++)
+                for (int j = i + 1; j < bitstring.Count; j++)
+                {
+                    if (current[i] != current[j])
+                    {
+                        current[i] = !current[i];
+                        current[j] = !current[j];
+
+                        float neighborFitness = fitnessFunc.FitnessSwap(current, original, i, j);
+                        if (neighborFitness < bestFitness)
+                        {
+                            return current;
+                        }
+
+                        current[i] = !current[i];
+                        current[j] = !current[j];
+                    }
+                }
+
+            return original;
         }
 
         public List<bool> BestNeighbor(List<bool> bitstring)
