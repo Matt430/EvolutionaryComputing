@@ -37,10 +37,10 @@ namespace Assignment2
             }
         }
 
-        public override float Fitness(List<bool> bitstring)
+        public override int Fitness(List<bool> bitstring)
         {
             
-            float fitness = base.Fitness(bitstring);
+            int fitness = base.Fitness(bitstring);
             if (fitness == -1)
             {
                 //Check for every edge if both vertices are in the same partition.
@@ -59,9 +59,9 @@ namespace Assignment2
             return fitness;
         }
 
-        public float FitnessSwap(List<bool> bitstring, List<bool> originalString, int swap1, int swap2)
+        public int FitnessSwap(List<bool> bitstring, List<bool> originalString, int swap1, int swap2)
         {
-            float fitness = base.Fitness(bitstring);
+            int fitness = base.Fitness(bitstring);
             if (fitness == -1)
             {
                 //Check for the swapped vertices if the vertices connected to it are in the same partition.

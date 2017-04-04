@@ -14,6 +14,7 @@ namespace Assignment2
         int mutateSwaps;
         int stringLength;
         int localOptima;
+        public int bestValue;
 
         public IteratedLocalSearch(int stringLength, FitnessFunction fitnessFunction, int mutateSwaps, int localOptima)
         {
@@ -34,8 +35,10 @@ namespace Assignment2
                 {
                     currentSolution = newSolution;
                 }
+                if (i % 10 == 0)
+                    Console.WriteLine(i + " / " + localOptima);
             }
-
+            bestValue = (int)fitnessFunction.Fitness(currentSolution);
             Console.WriteLine(PrintString(currentSolution) + " " + fitnessFunction.Fitness(currentSolution));
         }
 

@@ -37,14 +37,24 @@ namespace Assignment2
             Directory.CreateDirectory(path);
 
             // Run the test
-            MultiStartLocalSearch msl = new MultiStartLocalSearch(graph.Length, new GraphBipartition(graph), 2500);
+            //Test to determine the best value for the number of mutations
+            for (int i = 2; i <= 30; i += 2)
+            {
+                IteratedLocalSearch ils = new IteratedLocalSearch(graph.Length, new GraphBipartition(graph), i, 1000);
+                ils.Run();
+            }
+
+            //MultiStartLocalSearch msl = new MultiStartLocalSearch(graph.Length, new GraphBipartition(graph), 2500);
             //msl.Run();
 
-            IteratedLocalSearch ils = new IteratedLocalSearch(graph.Length, new GraphBipartition(graph), 20, 2500);
+            //IteratedLocalSearch ils = new IteratedLocalSearch(graph.Length, new GraphBipartition(graph), 20, 2500);
             //ils.Run();
 
-            GeneticAlgorithm ga = new GeneticAlgorithm(30, graph.Length, new GraphBipartition(graph), new Crossover(), 2500);
-            ga.Run();
+            //GeneticAlgorithm ga = new GeneticAlgorithm(30, graph.Length, new GraphBipartition(graph), new Crossover(), 2500);
+            //ga.Run();
+
+
+
             //Tester.RunTests(populationCounts, stringLength, k, 0f, GeneticAlgorithm.FitnessType.Uniform);
 
             Console.WriteLine("Testing Finished!");

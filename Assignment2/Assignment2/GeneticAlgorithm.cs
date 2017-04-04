@@ -17,7 +17,7 @@ namespace Assignment2
         private Crossover crossover;
         private List<List<bool>> population;
 
-        private float optimalFitness;
+        private int optimalFitness;
         private int firstHitGeneration, convergenceGeneration;
         private int localOptima;
 

@@ -28,7 +28,7 @@ namespace Assignment2
         public void Run()
         {
             List<bool> bestResult = startValues[0];
-            float bestFitness = float.MaxValue;
+            int bestFitness = int.MaxValue;
 
             Stopwatch stopwatch = new Stopwatch();
 
@@ -37,7 +37,7 @@ namespace Assignment2
             foreach (List<bool> value in startValues)
             {
                 List<bool> currentResult = localSearch.Search(value);
-                float currentFitness = fitnessFunction.Fitness(currentResult);
+                int currentFitness = fitnessFunction.Fitness(currentResult);
 
                 if (currentFitness < bestFitness)
                 {

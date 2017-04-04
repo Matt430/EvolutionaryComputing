@@ -5,15 +5,15 @@ namespace Assignment2
     abstract class FitnessFunction
     {
         private int fitnessCalls;
-        protected Dictionary<List<bool>, float> tabooList;
+        protected Dictionary<List<bool>, int> tabooList;
 
         public FitnessFunction()
         {
-            tabooList = new Dictionary<List<bool>, float>();
+            tabooList = new Dictionary<List<bool>, int>();
         }
 
         //The fitness function, to be implemented for every class that inherits from this.
-        public virtual float Fitness(List<bool> bitstring)
+        public virtual int Fitness(List<bool> bitstring)
         {
             if(tabooList.ContainsKey(bitstring))
                 return tabooList[bitstring];

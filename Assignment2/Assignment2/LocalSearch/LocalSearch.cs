@@ -31,7 +31,7 @@ namespace Assignment2
         {
             List<bool> original = bitstring;
             List<bool> current = new List<bool>(bitstring);
-            float bestFitness = fitnessFunc.Fitness(bitstring);
+            int bestFitness = fitnessFunc.Fitness(bitstring);
 
             for (int i = 0; i < bitstring.Count - 1; i++)
                 for (int j = i + 1; j < bitstring.Count; j++)
@@ -41,7 +41,7 @@ namespace Assignment2
                         current[i] = !current[i];
                         current[j] = !current[j];
 
-                        float neighborFitness = fitnessFunc.FitnessSwap(current, original, i, j);
+                        int neighborFitness = fitnessFunc.FitnessSwap(current, original, i, j);
                         if (neighborFitness < bestFitness)
                         {
                             return current;
@@ -61,7 +61,7 @@ namespace Assignment2
             List<bool> current = new List<bool>(bitstring);
             List<bool> bestNeighbor = bitstring;
             int bestSwap1 = 0, bestSwap2 = 0;
-            float bestFitness = fitnessFunc.Fitness(bitstring);
+            int bestFitness = fitnessFunc.Fitness(bitstring);
 
             for (int i = 0; i < bitstring.Count - 1; i++)
                 for (int j = i + 1; j < bitstring.Count; j++)
@@ -71,7 +71,7 @@ namespace Assignment2
                         current[i] = !current[i];
                         current[j] = !current[j];
 
-                        float neighborFitness = fitnessFunc.FitnessSwap(current, original, i, j);
+                        int neighborFitness = fitnessFunc.FitnessSwap(current, original, i, j);
                         if (neighborFitness < bestFitness)
                         {
                             bestNeighbor = new List<bool>(current);
