@@ -46,28 +46,21 @@ namespace Assignment2
                 //Make sure the ordering is random.
                 population = ShufflePopulation(population);
 
-                // Stop check
-                List<List<bool>> populationCheck = new List<List<bool>>(population);
-                populationCheck.Sort(fitnessFunction.FitnessCompare);
-
                 //Generate new offsring using the chosen crossover method.
                 population = crossover.GenerateOffspring(population, random, localsearch, localOptima, currentOptima);
                 currentOptima += populationCount;
 
                 if (currentOptima >= localOptima)
+                {
+                    population.Sort(fitnessFunction.FitnessCompare);
                     break;
+                }
 
                 //Sort the list and remove the worst half.
                 population.Sort(fitnessFunction.FitnessCompare);
                 population.RemoveRange(population.Count / 2, population.Count / 2);
 
-                // Check if any children have entered the population
-                /*if(populationCheck.SequenceEqual(population))
-                {
-                    Console.WriteLine("No new offspring was found!");
-                    break;
-                }*/
-
+                Console.WriteLine(currentOptima + " / " + localOptima);
                 ++generation;
             }
             //convergenceGeneration = generation;
@@ -143,5 +136,8 @@ namespace Assignment2
 
         public long RunTime
         { get { return stopwatch.ElapsedMilliseconds; } }
+
+        public int Result
+        { get { return fitnessFunction.Fitness(population[0]); } }
     }
 }

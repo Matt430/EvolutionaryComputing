@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
@@ -38,11 +39,11 @@ namespace Assignment2
 
             // Run the test
             //Test to determine the best value for the number of mutations
-            for (int i = 2; i <= 30; i += 2)
-            {
-                IteratedLocalSearch ils = new IteratedLocalSearch(graph.Length, new GraphBipartition(graph), i, 1000);
-                ils.Run();
-            }
+            //ILSMutationTest(graph);
+
+            //Test to determine the best population size for the GA
+            EvolutionaryPopulationTest(graph);
+
 
             //MultiStartLocalSearch msl = new MultiStartLocalSearch(graph.Length, new GraphBipartition(graph), 2500);
             //msl.Run();
@@ -62,6 +63,7 @@ namespace Assignment2
             Console.ReadKey();
         }
 
+
         static string[] RemoveEmpty(string[] input)
         {
             List<string> nonEmpty = new List<string>();
@@ -69,6 +71,105 @@ namespace Assignment2
                 if(component != "")
                     nonEmpty.Add(component);
             return nonEmpty.ToArray();
+        }
+
+        static void ILSMutationTest(int[][] graph)
+        {
+            int[] parameter = new int[15];
+            int[,] results = new int[15, 5];
+            int[,] time = new int[15, 5];
+            int n = 0;
+
+            for (int i = 2; i <= 30; i += 2)
+            {
+                for (int j = 0; j < 5; j++)
+                {
+                    Stopwatch stopwatch = new Stopwatch();
+
+                    stopwatch.Start();
+                    IteratedLocalSearch ils = new IteratedLocalSearch(graph.Length, new GraphBipartition(graph), i, 1000);
+                    ils.Run();
+                    stopwatch.Stop();
+
+                    parameter[n] = i;
+                    results[n,j] = ils.bestValue;
+                    time[n,j] = (int)stopwatch.ElapsedMilliseconds;    
+                }
+
+                n++;
+            }
+            
+
+            // Create the the table and set the headers
+            string path = Directory.GetCurrentDirectory() + "/Results/ResultTable_ILS_Parameters.csv";
+            string header = "";
+            if (!File.Exists(path))
+                header = "Parameter;Results;Time;Results;Time;Results;Time;Results;Time;Results;Time";
+            
+
+            // Write the values into the table
+
+
+            using (StreamWriter writer = new StreamWriter(path, true))
+            {
+                if (header != "")
+                    writer.WriteLine(header);
+                for (int i = 0; i < parameter.Length; i++)
+                {
+                    string line = string.Format("{0};{1};{2};{3};{4};{5};{6};{7};{8};{9};{10}", parameter[i], results[i, 0], time[i, 0], results[i, 1], time[i, 1], results[i, 2], time[i, 2], results[i, 3], time[i, 3], results[i, 4], time[i, 4]);
+                    writer.WriteLine(line);
+                }
+                writer.Flush();
+            }
+        }
+
+        static void EvolutionaryPopulationTest(int[][] graph)
+        {
+            int[] parameter = new int[5];
+            int[,] results = new int[5,5];
+            int[,] time = new int[5,5];
+            int n = 0;
+
+            for (int i = 50; i <= 250; i += 50)
+            {
+                for (int j = 0; j < 5; j++)
+                {
+                    Stopwatch stopwatch = new Stopwatch();
+
+                    stopwatch.Start();
+                    GeneticAlgorithm ga = new GeneticAlgorithm(i, graph.Length, new GraphBipartition(graph), new Crossover(), 2500);
+                    ga.Run();
+                    stopwatch.Stop();
+
+                    parameter[n] = i;
+                    results[n,j] = ga.Result;
+                    time[n,j] = (int)stopwatch.ElapsedMilliseconds;
+                }
+                n++;
+            }
+
+
+            // Create the the table and set the headers
+            string path = Directory.GetCurrentDirectory() + "/Results/ResultTable_Evolutionary_Populations.csv";
+            string header = "";
+            if (!File.Exists(path))
+                header = "Population Size;Results;Time;Results;Time;Results;Time;Results;Time;Results;Time";
+
+
+            // Write the values into the table
+
+
+            using (StreamWriter writer = new StreamWriter(path, true))
+            {
+                if (header != "")
+                    writer.WriteLine(header);
+                for (int i = 0; i < parameter.Length; i++)
+                {
+                    string line = string.Format("{0};{1};{2};{3};{4};{5};{6};{7};{8};{9};{10}", parameter[i], results[i, 0], time[i, 0], results[i, 1], time[i, 1], results[i, 2], time[i, 2], results[i, 3], time[i, 3], results[i, 4], time[i, 4]);
+                    writer.WriteLine(line);
+                }
+                writer.Flush();
+            }
         }
     }
 }

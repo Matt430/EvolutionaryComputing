@@ -63,6 +63,9 @@ namespace Assignment2
                 currentOptima += 2;
                 population.Add(child1);
                 population.Add(child2);
+
+                if (currentOptima >= localOptima)
+                    return population;
             }
             return (population);
         }
