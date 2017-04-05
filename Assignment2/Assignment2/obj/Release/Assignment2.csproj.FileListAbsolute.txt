@@ -1,0 +1,8 @@
+C:\Users\Finn\Documents\EvolutionaryComputing\Assignment2\Assignment2\bin\Release\Graphs\Graph10.txt
+C:\Users\Finn\Documents\EvolutionaryComputing\Assignment2\Assignment2\bin\Release\Graphs\Graph500.txt
+C:\Users\Finn\Documents\EvolutionaryComputing\Assignment2\Assignment2\bin\Release\Assignment2.exe.config
+C:\Users\Finn\Documents\EvolutionaryComputing\Assignment2\Assignment2\bin\Release\Assignment2.exe
+C:\Users\Finn\Documents\EvolutionaryComputing\Assignment2\Assignment2\bin\Release\Assignment2.pdb
+C:\Users\Finn\Documents\EvolutionaryComputing\Assignment2\Assignment2\obj\Release\Assignment2.exe
+C:\Users\Finn\Documents\EvolutionaryComputing\Assignment2\Assignment2\obj\Release\Assignment2.pdb
+C:\Users\Finn\Documents\EvolutionaryComputing\Assignment2\Assignment2\obj\Release\Assignment2.csprojResolveAssemblyReference.cache

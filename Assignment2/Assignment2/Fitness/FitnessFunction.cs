@@ -15,8 +15,11 @@ namespace Assignment2
         //The fitness function, to be implemented for every class that inherits from this.
         public virtual int Fitness(List<bool> bitstring)
         {
-            if(tabooList.ContainsKey(bitstring))
-                return tabooList[bitstring];
+            lock (tabooList)
+            {
+                if (tabooList.ContainsKey(bitstring))
+                    return tabooList[bitstring];
+            }
 
             ++fitnessCalls;
 

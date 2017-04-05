@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Assignment2
 {
@@ -39,22 +35,25 @@ namespace Assignment2
 
         public override int Fitness(List<bool> bitstring)
         {
-            
             int fitness = base.Fitness(bitstring);
+
             if (fitness == -1)
             {
                 //Check for every edge if both vertices are in the same partition.
                 fitness = 0;
-                for (int i = 0; i < halfGraph.Length; i++ )
+                for (int i = 0; i < halfGraph.Length; i++)
                 {
-                    for (int j = 0; j < halfGraph[i].Length; j++ )
+                    for (int j = 0; j < halfGraph[i].Length; j++)
                         if (bitstring[i] != bitstring[halfGraph[i][j]])
                         {
                             fitness++;
                         }
                 }
 
-                tabooList.Add(bitstring, fitness);
+                lock (tabooList)
+                {
+                    tabooList.Add(bitstring, fitness);
+                }
             }
             return fitness;
         }

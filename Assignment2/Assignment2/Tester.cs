@@ -1,132 +1,219 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
 
 namespace Assignment2
 {
     class Tester
     {
         // Run 25 tests with the given settings
-        public static void RunTests(int[] populationCounts, int stringLength, int k, float d, GeneticAlgorithm.FitnessType fitnessType)
+        public static void RunTests(int[][] graph)
         {
-            //for(int c = 0; c < 2; ++c)
-            //{
-            //    string crossoverType = "";
-            //    if(c == 0)
-            //        crossoverType = "2X";
-            //    else
-            //        crossoverType = "UX";
+            Console.WriteLine("Start Testing MLS...");
+            MLSTest(graph);
+            Console.WriteLine("Testing Finished!");
 
-            //    Console.WriteLine("Start Test " + crossoverType + " " + fitnessType.ToString() + " with d:" + d + "...");
-            //    for(int r = 0; r < 4; ++r)
-            //    {
-            //        int numberOfRuns = 25;
+            Console.WriteLine("Start Testing ILS...");
+            ILSMutationTest(graph);
+            Console.WriteLine("Testing Finished!");
 
-            //        // Containers for the results
-            //        float[] firstHits = new float[numberOfRuns];
-            //        float[] convergences = new float[numberOfRuns];
-            //        float[] fitnessCalls = new float[numberOfRuns];
-            //        float[] runTimes = new float[numberOfRuns];
+            Console.WriteLine("Start Testing GLS...");
+            EvolutionaryPopulationTest(graph);
+            Console.WriteLine("Testing Finished!");
 
-            //        Parallel.For(0, numberOfRuns, i =>
-            //        //for(int i = 0; i < numberOfRuns; ++i)
-            //        {
-            //            // Assign which crossover must be used
-            //            Crossover crossover;
-            //            if(c == 0)
-            //                crossover = new TwoPointCrossover();
-            //            else
-            //                crossover = new UniformCrossover();
-
-            //            // Assign which fitness function must be used
-            //            FitnessFunction fitnessFunction;
-            //            switch(fitnessType)
-            //            {
-            //                case GeneticAlgorithm.FitnessType.Uniform:
-            //                    fitnessFunction = new UniformOneCount();
-            //                    break;
-            //                case GeneticAlgorithm.FitnessType.Linear:
-            //                    fitnessFunction = new LinearOneCount();
-            //                    break;
-            //                case GeneticAlgorithm.FitnessType.TightLink:
-            //                    fitnessFunction = new TightLinkTrap(k, d);
-            //                    break;
-            //                default:
-            //                    fitnessFunction = new LooseLinkTrap(k, d, stringLength);
-            //                    break;
-            //            }
-
-            //            // Run the test
-            //            GeneticAlgorithm ga = new GeneticAlgorithm(populationCounts[r], stringLength, fitnessFunction, crossover);
-            //            ga.Run();
-
-            //            firstHits[i] = ga.FirstHitGeneration;
-            //            convergences[i] = ga.ConvergenceGeneration;
-            //            fitnessCalls[i] = ga.FitnessCalls;
-            //            runTimes[i] = ga.RunTime;
-            //        });
-
-            //        // Calculate successes
-            //        int successes = 0;
-            //        foreach(float firstHit in firstHits)
-            //            if(firstHit > 0)
-            //                ++successes;
-            //        float[] newFirstHits = new float[successes];
-            //        int n = 0;
-            //        foreach (float firstHit in firstHits)
-            //            if (firstHit > 0)
-            //            {
-            //                newFirstHits[n] = firstHit;
-            //                ++n;
-            //            }
-
-            //        // Calculate the mean
-            //        float meanFirstHit = CalculateMean(newFirstHits);
-            //        float meanConvergence = CalculateMean(convergences);
-            //        float meanFitnessCalls = CalculateMean(fitnessCalls);
-            //        float meanRuntime = CalculateMean(runTimes);
-
-            //        // Calculate the standard deviation
-            //        float firstHitSD = CalculateStandardDeviation(newFirstHits, meanFirstHit);
-            //        float convergenceSD = CalculateStandardDeviation(convergences, meanConvergence);
-            //        float fitnessCallsSD = CalculateStandardDeviation(fitnessCalls, meanFitnessCalls);
-            //        float runTimeSD = CalculateStandardDeviation(runTimes, meanRuntime);
-
-            //        // Save the results in a .csv file
-            //        SaveTable(crossoverType, fitnessType.ToString(), d, populationCounts[r], successes, meanFirstHit, firstHitSD, meanConvergence, convergenceSD, meanFitnessCalls, fitnessCallsSD, meanRuntime, runTimeSD);
-            //    }
-            //    Console.WriteLine("Finished Test!");
-            //}
+            Console.WriteLine("Start Testing GILS...");
+            EvolutionaryIterativePopulationTest(graph);
+            Console.WriteLine("Testing Finished!");
         }
 
-        //// Save the results to a table
-        //private static void SaveTable(string crossover, string fitnessType, float d,
-        //    int populationSize, int successes,
-        //    float meanFirstHit, float firstHitSD,
-        //    float meanConvergence, float convergenceSD,
-        //    float meanFitnessCalls, float fitnessCallsSD,
-        //    float meanRuntime, float runTimeSD)
-        //{
-        //    // Create the the table and set the headers
-        //    string path = Directory.GetCurrentDirectory() + "/Results/ResultTable_" + crossover + "_" + fitnessType + "_" + d + ".csv";
-        //    string header = "";
-        //    if(!File.Exists(path))
-        //        header = "Population Size|Successes|Mean First Hit|Standard Deviation First Hit|Mean Convergence|Standard Deviation Convergence|Mean Function Calls|Standard Deviation Function Calls|Mean Runtime|Standard Deviation Runtime";
+        private static void MLSTest(int[][] graph)
+        {
+            int[] time = new int[25];
+            for (int i = 0; i < 25; ++i)
+            {
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
 
-        //    // Write the values into the table
-        //    using(StreamWriter writer = new StreamWriter(path, true))
-        //    {
-        //        if(header != "")
-        //            writer.WriteLine(header);
-        //        string line = string.Format("{0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|{8}|{9}", populationSize, successes, meanFirstHit, firstHitSD, meanConvergence, convergenceSD, meanFitnessCalls, fitnessCallsSD, meanRuntime, runTimeSD);
-        //        writer.WriteLine(line);
-        //        writer.Flush();
-        //    }
-        //}
+                MultiStartLocalSearch mls = new MultiStartLocalSearch(graph.Length, new GraphBipartition(graph), 1000);
+                mls.Run();
+
+                stopwatch.Stop();
+                time[i] = (int)stopwatch.ElapsedMilliseconds;
+            }
+
+            // Create the the table and set the headers
+            string path = Directory.GetCurrentDirectory() + "/Results/ResultTable_MLS.csv";
+            string header = "";
+            if (!File.Exists(path))
+                header = "Time";
+
+            // Write the values into the table
+            using (StreamWriter writer = new StreamWriter(path, true))
+            {
+                if (header != "")
+                    writer.WriteLine(header);
+                float[] temp = new float[25];
+                string line;
+                for (int i = 0; i < time.Length; i++)
+                {
+                    line = string.Format("{0}", time[i]);
+                    writer.WriteLine(line);
+                    temp[i] = time[i];
+                }
+                line = string.Format("{0}", CalculateMean(temp));
+                writer.WriteLine(line);
+                line = string.Format("{0}", CalculateStandardDeviation(temp));
+                writer.WriteLine(line);
+                writer.Flush();
+            }
+        }
+
+        private static void ILSMutationTest(int[][] graph)
+        {
+            int[] parameter = new int[15];
+            float[] resultsMean = new float[15];
+            float[] resultsSD = new float[15];
+            float[] timeMean = new float[15];
+            float[] timeSD = new float[15];
+            int n = 0;
+
+            for (int i = 2; i <= 30; i += 2)
+            {
+                float[] resultValues = new float[25];
+                float[] timeValues = new float[25];
+                for (int j = 0; j < 25; j++)
+                {
+                    Stopwatch stopwatch = new Stopwatch();
+                    stopwatch.Start();
+
+                    IteratedLocalSearch ils = new IteratedLocalSearch(graph.Length, new GraphBipartition(graph), i, 1000);
+                    ils.Run();
+
+                    stopwatch.Stop();
+
+                    parameter[n] = i;
+                    resultValues[j] += ils.bestValue;
+                    timeValues[j] += (int)stopwatch.ElapsedMilliseconds;
+                }
+                resultsMean[n] = CalculateMean(resultValues);
+                resultsSD[n] = CalculateStandardDeviation(resultValues);
+                timeMean[n] = CalculateMean(timeValues);
+                timeSD[n] = CalculateStandardDeviation(timeValues);
+                n++;
+            }
+
+            // Save results
+            SaveTable(Directory.GetCurrentDirectory() + "/Results/ResultTable_ILS_Parameters.csv", "Parameter, Results Mean, Results SD, Time Mean, Time SD", parameter, resultsMean, resultsSD, timeMean, timeSD);
+        }
+
+        private static void EvolutionaryPopulationTest(int[][] graph)
+        {
+            int[] parameter = new int[5];
+            float[] resultsMean = new float[5];
+            float[] resultsSD = new float[5];
+            float[] timeMean = new float[5];
+            float[] timeSD = new float[5];
+            int n = 0;
+
+            for (int i = 50; i <= 250; i += 50)
+            {
+                float[] resultValues = new float[25];
+                float[] timeValues = new float[25];
+                for (int j = 0; j < 25; j++)
+                {
+                    Stopwatch stopwatch = new Stopwatch();
+                    stopwatch.Start();
+
+                    GeneticAlgorithm ga = new GeneticAlgorithm(i, graph.Length, new GraphBipartition(graph), new Crossover(), 1000);
+                    ga.Run();
+
+                    stopwatch.Stop();
+
+                    parameter[n] = i;
+                    resultValues[j] += ga.Result;
+                    timeValues[j] += (int)stopwatch.ElapsedMilliseconds;
+                }
+                resultsMean[n] = CalculateMean(resultValues);
+                resultsSD[n] = CalculateStandardDeviation(resultValues);
+                timeMean[n] = CalculateMean(timeValues);
+                timeSD[n] = CalculateStandardDeviation(timeValues);
+                n++;
+            }
+
+            // Save results
+            SaveTable(Directory.GetCurrentDirectory() + "/Results/ResultTable_ILS_Parameters.csv", "Parameter, Results Mean, Results SD, Time Mean, Time SD", parameter, resultsMean, resultsSD, timeMean, timeSD);
+        }
+
+        private static void EvolutionaryIterativePopulationTest(int[][] graph)
+        {
+            int[] time = new int[25];
+            for (int j = 0; j < 25; j++)
+            {
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+
+                GeneticIterativeSearch gils = new GeneticIterativeSearch(100, graph.Length, new GraphBipartition(graph), new Crossover(), 1000);
+                gils.Run();
+
+                stopwatch.Stop();
+                time[j] = (int)stopwatch.ElapsedMilliseconds;
+            }
+
+            // Create the the table and set the headers
+            string path = Directory.GetCurrentDirectory() + "/Results/ResultTable_EvolutionaryIterative.csv";
+            string header = "";
+            if (!File.Exists(path))
+                header = "Time";
+
+            // Write the values into the table
+            using (StreamWriter writer = new StreamWriter(path, true))
+            {
+                if (header != "")
+                    writer.WriteLine(header);
+                float[] temp = new float[25];
+                string line;
+                for (int i = 0; i < time.Length; i++)
+                {
+                    line = string.Format("{0}", time[i]);
+                    writer.WriteLine(line);
+                    temp[i] = time[i];
+                }
+                line = string.Format("{0}", CalculateMean(temp));
+                writer.WriteLine(line);
+                line = string.Format("{0}", CalculateStandardDeviation(temp));
+                writer.WriteLine(line);
+                writer.Flush();
+            }
+        }
+
+        // Save the results to a table
+        private static void SaveTable(string path, string newHeader, int[] parameter, float[] resultsMean, float[] resultsSD, float[] timeMean, float[] timeSD)
+        {
+            // Create the the table and set the headers
+            string header = "";
+            if (!File.Exists(path))
+                header = newHeader;
+
+            // Write the values into the table
+            using (StreamWriter writer = new StreamWriter(path, true))
+            {
+                if (header != "")
+                    writer.WriteLine(header);
+                string line;
+                for (int i = 0; i < parameter.Length; i++)
+                {
+                    line = string.Format("{0}, {1}, {2}, {3}, {4}", parameter[i], resultsMean[i], resultsSD[i], timeMean[i], timeSD[i]);
+                    writer.WriteLine(line);
+                }
+                writer.Flush();
+            }
+        }
 
         // Calculate the mean of an array of values
         private static float CalculateMean(float[] values)
         {
             float mean = 0;
-            foreach(float value in values)
+            foreach (float value in values)
                 mean += value / values.Length;
             return mean;
         }
@@ -135,13 +222,13 @@ namespace Assignment2
         private static float CalculateStandardDeviation(float[] values, float mean)
         {
             float[] intermediate = new float[values.Length];
-            for(int i = 0; i < values.Length; ++i)
-                intermediate[i] = (float) Math.Pow(values[i] - mean, 2);
+            for (int i = 0; i < values.Length; ++i)
+                intermediate[i] = (float)Math.Pow(values[i] - mean, 2);
 
             float standardDeviation = 0;
-            foreach(float value in intermediate)
+            foreach (float value in intermediate)
                 standardDeviation += value / values.Length;
-            return (float) Math.Sqrt(standardDeviation);
+            return (float)Math.Sqrt(standardDeviation);
         }
 
         // Calculate the standard deviation of an array of values

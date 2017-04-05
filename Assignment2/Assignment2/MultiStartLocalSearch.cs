@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Assignment2
 {
@@ -20,7 +18,7 @@ namespace Assignment2
             startCount = localOptima;
             this.fitnessFunction = fitnessFunction as GraphBipartition;
             localSearch = new LocalSearch(this.fitnessFunction);
-            
+
             //Generate a random population
             startValues = GenerateRandomPopulation(localOptima, stringLength);
         }
@@ -31,10 +29,10 @@ namespace Assignment2
             int bestFitness = int.MaxValue;
 
             Stopwatch stopwatch = new Stopwatch();
-
             stopwatch.Start();
 
-            foreach (List<bool> value in startValues)
+            Parallel.ForEach(startValues, value =>
+            //foreach (List<bool> value in startValues)
             {
                 List<bool> currentResult = localSearch.Search(value);
                 int currentFitness = fitnessFunction.Fitness(currentResult);
@@ -44,7 +42,7 @@ namespace Assignment2
                     bestResult = currentResult;
                     bestFitness = currentFitness;
                 }
-            }
+            });
 
             stopwatch.Stop();
             Console.WriteLine("Time elapsed: " + stopwatch.ElapsedMilliseconds);

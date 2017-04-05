@@ -4,28 +4,30 @@ using System.Diagnostics;
 
 namespace Assignment2
 {
-    class GeneticAlgorithm
+    class GeneticIterativeSearch
     {
         public enum FitnessType { Uniform }
 
-        private Random random = new Random(0);
+        private Random random = new Random();
         private Stopwatch stopwatch = new Stopwatch();
 
         private int populationCount;
         private FitnessFunction fitnessFunction;
         private Crossover crossover;
+        private IteratedLocalSearch ils;
         private List<List<bool>> population;
 
         private int optimalFitness;
         private int firstHitGeneration, convergenceGeneration;
         private int localOptima;
 
-        public GeneticAlgorithm(int populationCount, int stringLength, FitnessFunction fitnessFunction, Crossover crossover, int localOptima)
+        public GeneticIterativeSearch(int populationCount, int stringLength, FitnessFunction fitnessFunction, Crossover crossover, int localOptima)
         {
             this.populationCount = populationCount;
             this.fitnessFunction = fitnessFunction;
             this.localOptima = localOptima;
             this.crossover = crossover;
+            ils = new IteratedLocalSearch(stringLength, fitnessFunction, 16, localOptima / 10);
 
             //Generate a random population
             population = GenerateRandomPopulation(populationCount, stringLength);
@@ -49,7 +51,7 @@ namespace Assignment2
                 population = crossover.GenerateOffspring(population, random, localsearch, localOptima, currentOptima);
                 currentOptima += populationCount;
 
-                if (currentOptima >= localOptima)
+                if (currentOptima >= localOptima - (localOptima / 10))
                 {
                     population.Sort(fitnessFunction.FitnessCompare);
                     break;
@@ -61,6 +63,9 @@ namespace Assignment2
 
                 ++generation;
             }
+
+            Console.WriteLine(fitnessFunction.Fitness(population[0]));
+            population[0] = ils.Run(population[0]);
 
             stopwatch.Stop();
             Console.WriteLine("Time elapsed: " + stopwatch.ElapsedMilliseconds);

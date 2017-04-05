@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Assignment2
 {
@@ -58,8 +59,12 @@ namespace Assignment2
                         neededZero--;
                     }
                 }
-                child1 = localsearch.Search(child1);
-                child2 = localsearch.Search(child2);
+                Thread thread1 = new Thread(() => child1 = localsearch.Search(child1));
+                Thread thread2 = new Thread(() => child2 = localsearch.Search(child2));
+                thread1.Start();
+                thread2.Start();
+                thread1.Join();
+                thread2.Join();
                 currentOptima += 2;
                 population.Add(child1);
                 population.Add(child2);
@@ -67,7 +72,7 @@ namespace Assignment2
                 if (currentOptima >= localOptima)
                     return population;
             }
-            return (population);
+            return population;
         }
     }
 }

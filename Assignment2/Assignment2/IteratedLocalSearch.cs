@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace Assignment2
@@ -27,19 +26,32 @@ namespace Assignment2
 
         public void Run()
         {
-            List<bool> currentSolution = localSearch.Search(GenerateRandomBitstring(stringLength));
-            for (int i = 1; i < localOptima; i++)
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            List<bool> bestSolution = Run(GenerateRandomBitstring(stringLength));
+
+            stopwatch.Stop();
+            Console.WriteLine("Time elapsed: " + stopwatch.ElapsedMilliseconds);
+
+            bestValue = fitnessFunction.Fitness(bestSolution);
+            Console.WriteLine(PrintString(bestSolution) + " " + fitnessFunction.Fitness(bestSolution));
+        }
+
+        public List<bool> Run(List<bool> bitString)
+        {
+            List<bool> currentSolution = localSearch.Search(bitString);
+            Parallel.For(0, localOptima, i =>
+            //for (int i = 1; i < localOptima; i++)
             {
                 List<bool> newSolution = localSearch.Search(MutateString(currentSolution));
                 if (fitnessFunction.Fitness(newSolution) < fitnessFunction.Fitness(currentSolution))
                 {
                     currentSolution = newSolution;
                 }
-                if (i % 10 == 0)
-                    Console.WriteLine(i + " / " + localOptima);
-            }
-            bestValue = (int)fitnessFunction.Fitness(currentSolution);
-            Console.WriteLine(PrintString(currentSolution) + " " + fitnessFunction.Fitness(currentSolution));
+            });
+
+            return currentSolution;
         }
 
         private List<bool> MutateString(List<bool> bitString)
