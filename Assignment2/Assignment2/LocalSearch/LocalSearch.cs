@@ -27,11 +27,8 @@ namespace Assignment2
         {
             List<bool> original = bitstring;
             List<bool> current = new List<bool>(bitstring);
-            List<bool> newBest = null;
             int bestFitness = fitnessFunc.Fitness(bitstring);
 
-            //Parallel.For(0, bitstring.Count - 1, (i, loopState) =>
-            //{
             for (int i = 0; i < bitstring.Count - 1; i++)
                 for (int j = i + 1; j < bitstring.Count; j++)
                 {
@@ -44,18 +41,13 @@ namespace Assignment2
                         if (neighborFitness < bestFitness)
                         {
                             return current;
-                            //loopState.Stop();
-                            //newBest = current;
                         }
 
                         current[i] = !current[i];
                         current[j] = !current[j];
                     }
                 }
-            //});
 
-            if (newBest != null)
-                return newBest;
             return original;
         }
 

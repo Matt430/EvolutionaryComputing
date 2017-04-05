@@ -8,7 +8,7 @@ namespace Assignment2
     {
         public enum FitnessType { Uniform }
 
-        private Random random = new Random(0);
+        private Random random = new Random();
         private Stopwatch stopwatch = new Stopwatch();
 
         private int populationCount;

@@ -37,7 +37,7 @@ namespace Assignment2
             Directory.CreateDirectory(path);
 
             // Run the test
-            Tester.RunTests(graph);
+            Tester.RunTests(graph, 25, 2500);
 
             Console.WriteLine("Testing Finished!");
             Console.WriteLine("Press any key to close program...");

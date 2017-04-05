@@ -27,7 +27,7 @@ namespace Assignment2
             this.fitnessFunction = fitnessFunction;
             this.localOptima = localOptima;
             this.crossover = crossover;
-            ils = new IteratedLocalSearch(stringLength, fitnessFunction, 16, localOptima / 10);
+            ils = new IteratedLocalSearch(stringLength, fitnessFunction, 10, localOptima / 10);
 
             //Generate a random population
             population = GenerateRandomPopulation(populationCount, stringLength);

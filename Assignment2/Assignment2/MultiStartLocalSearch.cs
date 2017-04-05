@@ -12,12 +12,15 @@ namespace Assignment2
         private Random random = new Random();
         private List<List<bool>> startValues;
         LocalSearch localSearch;
+        object lockObj = new object();
+        public int bestFitness;
 
         public MultiStartLocalSearch(int stringLength, FitnessFunction fitnessFunction, int localOptima)
         {
             startCount = localOptima;
             this.fitnessFunction = fitnessFunction as GraphBipartition;
             localSearch = new LocalSearch(this.fitnessFunction);
+            bestFitness = int.MaxValue;
 
             //Generate a random population
             startValues = GenerateRandomPopulation(localOptima, stringLength);
@@ -26,21 +29,22 @@ namespace Assignment2
         public void Run()
         {
             List<bool> bestResult = startValues[0];
-            int bestFitness = int.MaxValue;
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
             Parallel.ForEach(startValues, value =>
-            //foreach (List<bool> value in startValues)
             {
                 List<bool> currentResult = localSearch.Search(value);
                 int currentFitness = fitnessFunction.Fitness(currentResult);
 
-                if (currentFitness < bestFitness)
+                lock (lockObj)
                 {
-                    bestResult = currentResult;
-                    bestFitness = currentFitness;
+                    if (currentFitness < bestFitness)
+                    {
+                        bestResult = currentResult;
+                        bestFitness = currentFitness;
+                    }
                 }
             });
 

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Threading.Tasks;
 
 namespace Assignment2
 {
@@ -41,15 +40,14 @@ namespace Assignment2
         public List<bool> Run(List<bool> bitString)
         {
             List<bool> currentSolution = localSearch.Search(bitString);
-            Parallel.For(0, localOptima, i =>
-            //for (int i = 1; i < localOptima; i++)
+            for (int i = 1; i < localOptima; i++)
             {
                 List<bool> newSolution = localSearch.Search(MutateString(currentSolution));
                 if (fitnessFunction.Fitness(newSolution) < fitnessFunction.Fitness(currentSolution))
                 {
                     currentSolution = newSolution;
                 }
-            });
+            }
 
             return currentSolution;
         }
