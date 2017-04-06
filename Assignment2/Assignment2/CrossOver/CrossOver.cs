@@ -48,14 +48,14 @@ namespace Assignment2
                     }
                     else if (random.NextDouble() >= (neededZero / (neededZero + neededOne)))
                     {
-                        child1.Add(population[i][j]);
-                        child2.Add(population[i + 1][j]);
+                        child1.Add(true);
+                        child2.Add(false);
                         neededOne--;
                     }
                     else
                     {
-                        child1.Add(population[i + 1][j]);
-                        child2.Add(population[i][j]);
+                        child1.Add(false);
+                        child2.Add(true);
                         neededZero--;
                     }
                 }

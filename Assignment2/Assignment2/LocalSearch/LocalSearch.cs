@@ -13,17 +13,18 @@ namespace Assignment2
 
         public List<bool> Search(List<bool> bitstring)
         {
+            int fitness = fitnessFunc.Fitness(bitstring);
             List<bool> previousSolution = bitstring;
-            List<bool> currentSolution = BetterNeighbor(bitstring);
+            List<bool> currentSolution = BetterNeighbor(bitstring, ref fitness);
             while (previousSolution != currentSolution)
             {
                 previousSolution = currentSolution;
-                currentSolution = BetterNeighbor(currentSolution);
+                currentSolution = BetterNeighbor(currentSolution, ref fitness);
             }
             return currentSolution;
         }
 
-        public List<bool> BetterNeighbor(List<bool> bitstring)
+        public List<bool> BetterNeighbor(List<bool> bitstring, ref int fitness)
         {
             List<bool> original = bitstring;
             List<bool> current = new List<bool>(bitstring);
@@ -37,9 +38,10 @@ namespace Assignment2
                         current[i] = !current[i];
                         current[j] = !current[j];
 
-                        int neighborFitness = fitnessFunc.FitnessSwap(current, original, i, j);
+                        int neighborFitness = fitnessFunc.FitnessSwap(current, original, bestFitness, i, j);
                         if (neighborFitness < bestFitness)
                         {
+                            fitness = neighborFitness;
                             return current;
                         }
 
@@ -51,7 +53,7 @@ namespace Assignment2
             return original;
         }
 
-        public List<bool> BestNeighbor(List<bool> bitstring)
+        public List<bool> BestNeighbor(List<bool> bitstring, int fitness)
         {
             List<bool> original = bitstring;
             List<bool> current = new List<bool>(bitstring);
@@ -67,7 +69,7 @@ namespace Assignment2
                         current[i] = !current[i];
                         current[j] = !current[j];
 
-                        int neighborFitness = fitnessFunc.FitnessSwap(current, original, i, j);
+                        int neighborFitness = fitnessFunc.FitnessSwap(current, original, bestFitness, i, j);
                         if (neighborFitness < bestFitness)
                         {
                             bestNeighbor = new List<bool>(current);

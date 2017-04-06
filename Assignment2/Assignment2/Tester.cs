@@ -10,15 +10,15 @@ namespace Assignment2
         public static void RunTests(int[][] graph, int noRuns, int localOptima)
         {
             Console.WriteLine("Start Testing MLS...");
-            MLSTest(graph, noRuns, localOptima);
+            //MLSTest(graph, noRuns, localOptima);
             Console.WriteLine("Testing Finished!");
 
             Console.WriteLine("Start Testing ILS...");
-            ILSMutationTest(graph, noRuns, localOptima);
+            //ILSMutationTest(graph, noRuns, localOptima);
             Console.WriteLine("Testing Finished!");
 
             Console.WriteLine("Start Testing GLS...");
-            EvolutionaryPopulationTest(graph, noRuns, localOptima);
+            EvolutionaryPopulationTest(graph, noRuns, 200);
             Console.WriteLine("Testing Finished!");
 
             Console.WriteLine("Start Testing GILS...");

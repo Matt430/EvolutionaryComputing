@@ -58,38 +58,37 @@ namespace Assignment2
             return fitness;
         }
 
-        public int FitnessSwap(List<bool> bitstring, List<bool> originalString, int swap1, int swap2)
+        public int FitnessSwap(List<bool> bitstring, List<bool> originalString, int originalFitness, int swap1, int swap2)
         {
             int fitness = base.Fitness(bitstring);
             if (fitness == -1)
             {
                 //Check for the swapped vertices if the vertices connected to it are in the same partition.
-                fitness = Fitness(originalString);
+                fitness = originalFitness;
                 for (int j = 0; j < fullGraph[swap1].Length; j++)
                     if (fullGraph[swap1][j] != swap2)
                     {
-                        if (bitstring[swap1] != bitstring[fullGraph[swap1][j]])
+                        if (bitstring[swap1] == bitstring[fullGraph[swap1][j]])
                         {
-                            fitness++;
+                            fitness--;
                         }
                         else
                         {
-                            fitness--;
+                            fitness++;
                         }
                     }
                 for (int j = 0; j < fullGraph[swap2].Length; j++)
                     if (fullGraph[swap2][j] != swap1)
                     {
-                        if (bitstring[swap2] != bitstring[fullGraph[swap2][j]])
-                        {
-                            fitness++;
-                        }
-                        else
+                        if (bitstring[swap2] == bitstring[fullGraph[swap2][j]])
                         {
                             fitness--;
                         }
+                        else
+                        {
+                            fitness++;
+                        }
                     }
-
             }
             return fitness;
         }
