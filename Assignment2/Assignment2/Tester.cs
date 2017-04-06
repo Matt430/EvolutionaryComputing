@@ -178,7 +178,7 @@ namespace Assignment2
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
 
-                GeneticIterativeSearch gils = new GeneticIterativeSearch(100, graph.Length, new GraphBipartition(graph), new Crossover(), localOptima);
+                GeneticIterativeSearch gils = new GeneticIterativeSearch(50, graph.Length, new GraphBipartition(graph), new Crossover(), localOptima);
                 gils.Run();
 
                 stopwatch.Stop();
@@ -228,7 +228,7 @@ namespace Assignment2
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
 
-                GeneticAlgorithmFamily glsf = new GeneticAlgorithmFamily(100, graph.Length, new GraphBipartition(graph), new Crossover(), localOptima);
+                GeneticAlgorithmFamily glsf = new GeneticAlgorithmFamily(50, graph.Length, new GraphBipartition(graph), new Crossover(), localOptima);
                 glsf.Run();
 
                 stopwatch.Stop();
