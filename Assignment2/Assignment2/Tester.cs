@@ -24,6 +24,10 @@ namespace Assignment2
             Console.WriteLine("Start Testing GILS...");
             EvolutionaryIterativePopulationTest(graph, noRuns, localOptima);
             Console.WriteLine("Testing Finished!");
+
+            Console.WriteLine("Start Testing GLSF...");
+            EvolutionaryFamilyTest(graph, noRuns, localOptima);
+            Console.WriteLine("Testing Finished!");
         }
 
         private static void MLSTest(int[][] graph, int noRuns, int localOptima)
@@ -185,6 +189,56 @@ namespace Assignment2
 
             // Create the the table and set the headers
             string path = Directory.GetCurrentDirectory() + "/Results/ResultTable_GILS.csv";
+            string header = "";
+            if (!File.Exists(path))
+                header = "Results, Time";
+
+            // Write the values into the table
+            using (StreamWriter writer = new StreamWriter(path, true))
+            {
+                if (header != "")
+                    writer.WriteLine(header);
+                float[] results1MinF = new float[noRuns];
+                float[] resultsF = new float[noRuns];
+                float[] timeF = new float[noRuns];
+                string line;
+                for (int i = 0; i < time.Length; i++)
+                {
+                    line = string.Format("{0}, {1}", results[i], time[i]);
+                    writer.WriteLine(line);
+                    results1MinF[i] = results1Min[i];
+                    resultsF[i] = results[i];
+                    timeF[i] = time[i];
+                }
+                line = string.Format("{0}, {1}, {2}", CalculateMean(results1MinF).ToString("0.0000"), CalculateMean(resultsF).ToString("0.0000"), CalculateMean(timeF).ToString("0.0000"));
+                writer.WriteLine(line);
+                line = string.Format("{0}, {1}, {2}", CalculateStandardDeviation(results1MinF).ToString("0.0000"), CalculateStandardDeviation(resultsF).ToString("0.0000"), CalculateStandardDeviation(timeF).ToString("0.0000"));
+                writer.WriteLine(line);
+                writer.Flush();
+            }
+        }
+
+        private static void EvolutionaryFamilyTest(int[][] graph, int noRuns, int localOptima)
+        {
+            int[] results1Min = new int[noRuns];
+            int[] results = new int[noRuns];
+            int[] time = new int[noRuns];
+            for (int j = 0; j < noRuns; j++)
+            {
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+
+                GeneticAlgorithmFamily glsf = new GeneticAlgorithmFamily(100, graph.Length, new GraphBipartition(graph), new Crossover(), localOptima);
+                glsf.Run();
+
+                stopwatch.Stop();
+                results1Min[j] = glsf.bestFitness1Min;
+                results[j] = glsf.Result;
+                time[j] = (int)stopwatch.ElapsedMilliseconds;
+            }
+
+            // Create the the table and set the headers
+            string path = Directory.GetCurrentDirectory() + "/Results/ResultTable_GLSF.csv";
             string header = "";
             if (!File.Exists(path))
                 header = "Results, Time";
