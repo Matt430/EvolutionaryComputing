@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Assignment2
 {
@@ -29,7 +30,7 @@ namespace Assignment2
             this.fitnessFunction = fitnessFunction;
             this.localOptima = localOptima;
             this.crossover = crossover;
-            ils = new IteratedLocalSearch(stringLength, fitnessFunction, 10, localOptima / 10);
+            ils = new IteratedLocalSearch(stringLength, fitnessFunction, 5, localOptima / 10);
 
             //Generate a random population
             population = GenerateRandomPopulation(populationCount, stringLength);
@@ -42,8 +43,12 @@ namespace Assignment2
 
             //Main loop
             int generation = 1;
-            int currentOptima = 0;
+            int currentOptima = populationCount;
             LocalSearch localsearch = new LocalSearch(fitnessFunction as GraphBipartition);
+            Parallel.For(0, populationCount, i =>
+            {
+                population[i] = localsearch.Search(population[i]);
+            });
 
             while (PrintString(population[0]) != PrintString(population[populationCount - 1]))
             {

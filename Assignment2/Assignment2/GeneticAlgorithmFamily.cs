@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Assignment2
 {
-    class GeneticAlgorithm
+    class GeneticAlgorithmFamily
     {
         public enum FitnessType { Uniform }
 
@@ -23,7 +23,7 @@ namespace Assignment2
 
         public int bestFitness1Min;
 
-        public GeneticAlgorithm(int populationCount, int stringLength, FitnessFunction fitnessFunction, Crossover crossover, int localOptima)
+        public GeneticAlgorithmFamily(int populationCount, int stringLength, FitnessFunction fitnessFunction, Crossover crossover, int localOptima)
         {
             this.populationCount = populationCount;
             this.fitnessFunction = fitnessFunction;
@@ -48,28 +48,27 @@ namespace Assignment2
                 population[i] = localsearch.Search(population[i]);
             });
 
-            while (PrintString(population[0]) != PrintString(population[populationCount - 1]))
+            while (true)
             {
                 //Make sure the ordering is random.
                 population = ShufflePopulation(population);
 
                 //Generate new offsring using the chosen crossover method.
-                population = crossover.GenerateOffspring(population, random, localsearch, localOptima, currentOptima);
+                population = crossover.GenerateOffspring(population, random, localsearch, fitnessFunction, localOptima, currentOptima);
                 currentOptima += populationCount;
 
-                population.Sort(fitnessFunction.FitnessCompare);
-
                 if (currentOptima >= localOptima)
+                {
+                    population.Sort(fitnessFunction.FitnessCompare);
                     break;
+                }
 
                 if (stopwatch.ElapsedMilliseconds > 60000 && !oneMin)
                 {
+                    population.Sort(fitnessFunction.FitnessCompare);
                     bestFitness1Min = fitnessFunction.Fitness(population[0]);
                     oneMin = true;
                 }
-
-                //Sort the list and remove the worst half.
-                population.RemoveRange(population.Count / 2, population.Count / 2);
 
                 ++generation;
             }
