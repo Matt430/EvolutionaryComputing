@@ -13,6 +13,7 @@ namespace Assignment2
         int stringLength;
         int localOptima;
         public int bestValue;
+        public int bestFitness1Min;
 
         public IteratedLocalSearch(int stringLength, FitnessFunction fitnessFunction, int mutateSwaps, int localOptima)
         {
@@ -39,6 +40,10 @@ namespace Assignment2
 
         public List<bool> Run(List<bool> bitString)
         {
+            bool oneMin = false;
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             List<bool> currentSolution = localSearch.Search(bitString);
             for (int i = 1; i < localOptima; i++)
             {
@@ -47,8 +52,15 @@ namespace Assignment2
                 {
                     currentSolution = newSolution;
                 }
+
+                if (stopwatch.ElapsedMilliseconds > 60000 && !oneMin)
+                {
+                    bestFitness1Min = fitnessFunction.Fitness(currentSolution);
+                    oneMin = true;
+                }
             }
 
+            stopwatch.Stop();
             return currentSolution;
         }
 

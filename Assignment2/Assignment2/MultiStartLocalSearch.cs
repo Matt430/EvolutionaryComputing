@@ -14,6 +14,7 @@ namespace Assignment2
         LocalSearch localSearch;
         object lockObj = new object();
         public int bestFitness;
+        public int bestFitness1Min;
 
         public MultiStartLocalSearch(int stringLength, FitnessFunction fitnessFunction, int localOptima)
         {
@@ -29,6 +30,7 @@ namespace Assignment2
         public void Run()
         {
             List<bool> bestResult = startValues[0];
+            bool oneMin = false;
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -44,6 +46,12 @@ namespace Assignment2
                     {
                         bestResult = currentResult;
                         bestFitness = currentFitness;
+                    }
+
+                    if (stopwatch.ElapsedMilliseconds > 60000 && !oneMin)
+                    {
+                        bestFitness1Min = bestFitness;
+                        oneMin = true;
                     }
                 }
             });

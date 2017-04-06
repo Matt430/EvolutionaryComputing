@@ -20,6 +20,8 @@ namespace Assignment2
         private int firstHitGeneration, convergenceGeneration;
         private int localOptima;
 
+        public int bestFitness1Min;
+
         public GeneticAlgorithm(int populationCount, int stringLength, FitnessFunction fitnessFunction, Crossover crossover, int localOptima)
         {
             this.populationCount = populationCount;
@@ -33,6 +35,7 @@ namespace Assignment2
 
         public void Run()
         {
+            bool oneMin = false;
             stopwatch.Start();
 
             //Main loop
@@ -53,6 +56,13 @@ namespace Assignment2
                 {
                     population.Sort(fitnessFunction.FitnessCompare);
                     break;
+                }
+
+                if (stopwatch.ElapsedMilliseconds > 60000 && !oneMin)
+                {
+                    population.Sort(fitnessFunction.FitnessCompare);
+                    bestFitness1Min = fitnessFunction.Fitness(population[0]);
+                    oneMin = true;
                 }
 
                 //Sort the list and remove the worst half.
